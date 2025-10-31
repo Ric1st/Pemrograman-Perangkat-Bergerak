@@ -22,8 +22,6 @@ class AppTheme {
         onSecondary: AppColors.onSecondary,
         secondaryContainer: AppColors.secondaryContainer,
         onSecondaryContainer: AppColors.onSecondaryContainer,
-        background: AppColors.background,
-        onBackground: AppColors.onBackground,
         surface: AppColors.surface,
         onSurface: AppColors.onSurface,
         error: AppColors.error,
@@ -35,6 +33,7 @@ class AppTheme {
 
       // AppBar Theme
       appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.primary,
         centerTitle: true,
         elevation: 0,
         titleTextStyle: GoogleFonts.inter(

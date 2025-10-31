@@ -23,13 +23,62 @@ class AppStrings {
   static const String delete = 'Delete';
   static const String ok = 'OK';
 
+  // NEW: Tambahkan 'confirm' di Common Actions
+  static const String confirm = 'Confirm';
+
+  // NEW: Navigation strings
+  static const String tasks = 'Tasks';
+  static const String dashboard = 'Dashboard';
+  static const String profile = 'Profile';
+
+  // NEW: Task List Screen strings
+  static const String myTasks = 'My Tasks';
+  static const String noTasks = 'No tasks yet';
+  static const String addTask = 'Add Task';
+
+  // NEW: Priority Labels
+  static const String priorityHigh = 'High';
+  static const String priorityMedium = 'Medium';
+  static const String priorityLow = 'Low';
+
+  // NEW: Status Labels
+  static const String statusCompleted = 'Completed';
+  static const String statusPending = 'Pending';
+  static const String statusOverdue = 'Overdue';
+
+  // NEW: Task Actions
+  static const String deleteTask = 'Delete Task';
+  static const String deleteTaskConfirm =
+      'Are you sure you want to delete this task?';
+  static const String taskDeleted = 'Task deleted';
+
+  static const String taskTitle = 'Task Title';
+  static const String taskDescription = 'Description';
+  static const String taskDueDate = 'Due Date';
+  static const String taskCategory = 'Category';
+  static const String taskPriority = 'Priority';
+  static const String selectDate = 'Select Date';
+  static const String selectCategory = 'Select Category';
+
+  static const String fieldRequired = 'This field is required';
+  static const String titleMinLength = 'Title must be at least 3 characters';
+  static const String descriptionMinLength =
+      'Description must be at least 10 characters';
+  static const String selectValidDate = 'Please select a valid date';
+  static const String selectValidCategory = 'Please select a category';
+
+  static const String taskCreated = 'Task created successfully';
+  static const String taskUpdated = 'Task updated successfully';
+  static const String draftSaved = 'Draft saved';
+  static const String draftLoaded = 'Draft loaded';
+
+  static const String categoryStudy = 'Study';
+  static const String categoryAssignment = 'Assignment';
+  static const String categoryProject = 'Project';
+  static const String categoryPersonal = 'Personal';
+
   // ==================== TODO: Additional Strings ====================
   // Will be added progressively in future tutorials:
-
-  // TODO P5: Add navigation strings
-  // static const String tasks = 'Tasks';
-  // static const String dashboard = 'Dashboard';
-  // static const String profile = 'Profile';
 
   // TODO P5-7: Add task feature strings
   // static const String taskList = 'My Tasks';
