@@ -135,8 +135,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
 
                   // Validation error message (if needed)
-                  if (_descriptionController.document.isEmpty() ||
-                      _showDescriptionError)
+                  if (_showDescriptionError)
                     Padding(
                       padding: const EdgeInsets.only(top: 8, left: 12),
                       child: Text(
@@ -408,10 +407,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       return;
     }
 
-    final descriptionPlainText =
-        _descriptionController.document.toPlainText().trim();
-    if (descriptionPlainText.isEmpty || descriptionPlainText.length < 10) {
+    final desc = _descriptionController.document.toPlainText().trim();
+    if (desc.isEmpty || desc.length < 10) {
       setState(() => _showDescriptionError = true);
+      print('Deskripsi tidak boleh kurang dari 10');
       return;
     } else {
       setState(() => _showDescriptionError = false);

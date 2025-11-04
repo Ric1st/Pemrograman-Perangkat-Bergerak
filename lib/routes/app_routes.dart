@@ -12,7 +12,5 @@ class AppRoutes {
 
   // Routes lain akan ditambahkan sesuai kebutuhan:
   // - '/login' di Pertemuan 9 (Authentication)
-  // - '/task-detail' di Pertemuan 5 (Task Detail)
-  // - '/add-task' di Pertemuan 6 (Form)
   // - dst...
 }

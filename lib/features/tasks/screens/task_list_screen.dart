@@ -17,6 +17,21 @@ class _TaskListScreenState extends State<TaskListScreen> {
   // Dummy data untuk P5
   late List<TaskModel> tasks;
 
+  TaskFilter _selectedFilter = TaskFilter.all;
+
+  List<TaskModel> get filteredTasks {
+    switch (_selectedFilter) {
+      case TaskFilter.pending:
+        return tasks.where((t) => t.status == TaskStatus.pending).toList();
+      case TaskFilter.overdue:
+        return tasks.where((t) => t.status == TaskStatus.overdue).toList();
+      case TaskFilter.completed:
+        return tasks.where((t) => t.status == TaskStatus.completed).toList();
+      default:
+        return tasks;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +44,20 @@ class _TaskListScreenState extends State<TaskListScreen> {
       appBar: AppBar(
         title: const Text(AppStrings.myTasks),
       ),
-      body: tasks.isEmpty ? _buildEmptyState() : _buildTaskList(),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildFilterChips(),
+            const SizedBox(height: 16),
+            Expanded(
+              child:
+                  filteredTasks.isEmpty ? _buildEmptyState() : _buildTaskList(),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _navigateToAddTask,
         tooltip: AppStrings.addTask,
@@ -40,6 +68,37 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
   void _navigateToAddTask() {
     Navigator.pushNamed(context, AppRoutes.addTask);
+  }
+
+  Widget _buildFilterChips() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 8,
+      children: [
+        _filterChip("All", TaskFilter.all, AppColors.primary),
+        _filterChip("Pending", TaskFilter.pending, AppColors.statusPending),
+        _filterChip("Overdue", TaskFilter.overdue, AppColors.statusOverdue),
+        _filterChip(
+            "Completed", TaskFilter.completed, AppColors.statusCompleted),
+      ],
+    );
+  }
+
+  Widget _filterChip(String label, TaskFilter filter, Color color) {
+    final isSelected = _selectedFilter == filter;
+
+    return ChoiceChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (_) {
+        setState(() => _selectedFilter = filter);
+      },
+      backgroundColor: color.withOpacity(0.15),
+      selectedColor: color,
+      labelStyle: TextStyle(
+        color: isSelected ? Colors.white : Colors.black,
+      ),
+    );
   }
 
   Widget _buildEmptyState() {
@@ -54,7 +113,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            AppStrings.noTasks,
+            "${AppStrings.noTasks} ${_selectedFilter.name}",
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color:
                       Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
@@ -68,9 +127,9 @@ class _TaskListScreenState extends State<TaskListScreen> {
   Widget _buildTaskList() {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: tasks.length,
+      itemCount: filteredTasks.length,
       itemBuilder: (context, index) {
-        final task = tasks[index];
+        final task = filteredTasks[index];
         return _buildDismissibleTaskCard(task, index);
       },
     );
@@ -126,7 +185,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
   void _deleteTask(int index) {
     setState(() {
-      tasks.removeAt(index);
+      final taskToDelete = filteredTasks[index];
+      tasks.removeWhere((t) => t.id == taskToDelete.id);
     });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -140,3 +200,5 @@ class _TaskListScreenState extends State<TaskListScreen> {
     Navigator.pushNamed(context, AppRoutes.taskDetail, arguments: task);
   }
 }
+
+enum TaskFilter { all, pending, overdue, completed }
