@@ -17,19 +17,11 @@ class _TaskListScreenState extends State<TaskListScreen> {
   // Dummy data untuk P5
   late List<TaskModel> tasks;
 
-  TaskFilter _selectedFilter = TaskFilter.all;
+  TaskStatus? _status;
 
   List<TaskModel> get filteredTasks {
-    switch (_selectedFilter) {
-      case TaskFilter.pending:
-        return tasks.where((t) => t.status == TaskStatus.pending).toList();
-      case TaskFilter.overdue:
-        return tasks.where((t) => t.status == TaskStatus.overdue).toList();
-      case TaskFilter.completed:
-        return tasks.where((t) => t.status == TaskStatus.completed).toList();
-      default:
-        return tasks;
-    }
+    if (_status == null) return tasks;
+    return tasks.where((t) => t.status == _status).toList();
   }
 
   @override
@@ -75,23 +67,23 @@ class _TaskListScreenState extends State<TaskListScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 8,
       children: [
-        _filterChip("All", TaskFilter.all, AppColors.primary),
-        _filterChip("Pending", TaskFilter.pending, AppColors.statusPending),
-        _filterChip("Overdue", TaskFilter.overdue, AppColors.statusOverdue),
+        _filterChip("All", null, AppColors.primary),
+        _filterChip("Pending", TaskStatus.pending, AppColors.statusPending),
+        _filterChip("Overdue", TaskStatus.overdue, AppColors.statusOverdue),
         _filterChip(
-            "Completed", TaskFilter.completed, AppColors.statusCompleted),
+            "Completed", TaskStatus.completed, AppColors.statusCompleted),
       ],
     );
   }
 
-  Widget _filterChip(String label, TaskFilter filter, Color color) {
-    final isSelected = _selectedFilter == filter;
+  Widget _filterChip(String label, TaskStatus? status, Color color) {
+    final isSelected = _status == status;
 
     return ChoiceChip(
       label: Text(label),
       selected: isSelected,
       onSelected: (_) {
-        setState(() => _selectedFilter = filter);
+        setState(() => _status = status);
       },
       backgroundColor: color.withOpacity(0.15),
       selectedColor: color,
@@ -102,6 +94,9 @@ class _TaskListScreenState extends State<TaskListScreen> {
   }
 
   Widget _buildEmptyState() {
+    // Ternary Show Massage
+    String filter =
+        _status == null ? "All" : _status.toString().split('.').last;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +108,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            "${AppStrings.noTasks} ${_selectedFilter.name}",
+            "${AppStrings.noTasks} $filter",
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color:
                       Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
@@ -200,5 +195,3 @@ class _TaskListScreenState extends State<TaskListScreen> {
     Navigator.pushNamed(context, AppRoutes.taskDetail, arguments: task);
   }
 }
-
-enum TaskFilter { all, pending, overdue, completed }

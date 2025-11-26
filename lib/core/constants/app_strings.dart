@@ -33,7 +33,7 @@ class AppStrings {
 
   // NEW: Task List Screen strings
   static const String myTasks = 'My Tasks';
-  static const String noTasks = 'Tidak ada task dengan status ';
+  static const String noTasks = 'Tidak ada task dengan status';
   static const String addTask = 'Add Task';
 
   // NEW: Priority Labels
